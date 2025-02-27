@@ -219,36 +219,47 @@ export const getCIBA = async () => {
 
 /**
  * 获取下一休息日tts
- * @returns
+ * @returns {Promise<{holidaytts: string, wxHolidaytts: Array}>}
  */
 export const getHolidaytts = async () => {
   if (config.SWITCH && config.SWITCH.holidaytts === false) {
-    return null
+    return null;
   }
 
-  const url = 'https://api.wangxinleo.cn/api/wx-push/holiday/getHolidaytts'
-  const res = await axios.get(url).catch((err) => err)
-  let data = DEFAULT_OUTPUT.holidaytts
+  // 使用新的API地址和请求参数
+  const date = new Date().toISOString().split('T')[0]; // 获取当前日期，格式为 YYYY-MM-DD
+  const url = `https://api.songzixian.com/api/holiday?dataSource=LOCAL_HOLIDAY&date=${date}`;
+  
+  try {
+    const res = await axios.get(url);
+    let data = DEFAULT_OUTPUT.holidaytts; // 假设DEFAULT_OUTPUT是一个预定义的对象
 
-  if (res.status === 200 && res.data && res.data.code === 0) {
-    data = res.data.tts
-  } else {
-    console.error('获取下一休息日tts: 发生错误', res)
-  }
+    if (res.status === 200 && res.data) {
+      // 假设返回的数据结构中有一个字段用于TTS文本，这里用'tts'作为示例
+      // 根据实际情况调整
+      data = res.data.tts || data;
+    } else {
+      console.error('获取下一休息日tts: 发生错误', res.statusText || '未知错误');
+    }
 
-  const arr = []
-  for (let j = 0, i = 0; j < data.length; j += 20) {
-    arr.push({
-      name: `wx_holidaytts_${i}`,
-      value: data.slice(j, j + 20),
-      color: getColor()
-    })
-    i++
-  }
+    const arr = [];
+    for (let j = 0, i = 0; j < data.length; j += 20) {
+      arr.push({
+        name: `wx_holidaytts_${i}`,
+        value: data.slice(j, j + 20),
+        color: getColor() // 假设getColor是一个预定义的函数
+      });
+      i++;
+    }
 
-  return {
-    holidaytts: data,
-    wxHolidaytts: arr
+    return {
+      holidaytts: data,
+      wxHolidaytts: arr
+    };
+  } catch (err) {
+    console.error('获取下一休息日tts: 发生错误', err.message || err);
+    // 可以在这里添加更多的错误处理逻辑，如重试机制或通知机制
+    throw err; // 或者决定是否在此处抛出异常，取决于你的错误处理策略
   }
 }
 
