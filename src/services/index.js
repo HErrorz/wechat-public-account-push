@@ -226,29 +226,50 @@ export const getHolidaytts = async () => {
 
   try {
     const date = new Date().toISOString().split('T')[0];
-    const url = `https://api.songzixian.com/api/holiday?dataSource=LOCAL_HOLIDAY&date=${date}`;
+    const url = `http://timor.tech/api/holiday/info/${date}`;
     const res = await axios.get(url);
 
-    if (res.status !== 200 || !res.data || res.data.error) {
-      console.error('API错误:', res.data?.error || '未知错误');
+    if (res.data.code !== 0) {
+      console.error('API错误:', res.data);
       throw new Error('获取假日数据失败');
     }
 
-    const data = res.data.tts ?? DEFAULT_OUTPUT.holidaytts;
+    // 解析API响应数据
+    const { type, holiday } = res.data;
+    let dataContent = DEFAULT_OUTPUT.holidaytts;
 
+    // 根据类型和节假日信息生成内容
+    if (holiday) {
+      if (type.type === 2) { // 节日类型
+        dataContent = `今天是${holiday.name}，节日快乐！`;
+      } else if (type.type === 3) { // 调休类型
+        const afterText = holiday.after ? '放完假后调休' : '先调休再放假';
+        dataContent = `今天是调休：${holiday.name}，属于${holiday.target}，${afterText}`;
+      }
+    } else {
+      switch (type.type) {
+        case 0: // 工作日
+          dataContent = '今天是工作日';
+          break;
+        case 1: // 周末
+          dataContent = '今天是周末，周末愉快！';
+          break;
+      }
+    }
+
+    // 处理分段展示
     const wxHolidaytts = [];
-    for (let i = 0; i < Math.ceil(data.length / 20); i++) {
+    for (let i = 0; i < Math.ceil(dataContent.length / 20); i++) {
       wxHolidaytts.push({
         name: `wx_holidaytts_${i}`,
-        value: data.slice(i * 20, (i + 1) * 20),
+        value: dataContent.slice(i * 20, (i + 1) * 20),
         color: getColor()
       });
     }
 
-    return { holidaytts: data, wxHolidaytts };
+    return { holidaytts: dataContent, wxHolidaytts };
   } catch (err) {
     console.error('获取假日TTS失败:', err.message);
-    // 返回默认值或重新抛出错误
     return {
       holidaytts: DEFAULT_OUTPUT.holidaytts,
       wxHolidaytts: []
