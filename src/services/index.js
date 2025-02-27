@@ -222,44 +222,37 @@ export const getCIBA = async () => {
  * @returns {Promise<{holidaytts: string, wxHolidaytts: Array}>}
  */
 export const getHolidaytts = async () => {
-  if (config.SWITCH && config.SWITCH.holidaytts === false) {
-    return null;
-  }
+  if (config.SWITCH?.holidaytts === false) return null;
 
-  // 使用新的API地址和请求参数
-  const date = new Date().toISOString().split('T')[0]; // 获取当前日期，格式为 YYYY-MM-DD
-  const url = `https://api.songzixian.com/api/holiday?dataSource=LOCAL_HOLIDAY&date=${date}`;
-  
   try {
+    const date = new Date().toISOString().split('T')[0];
+    const url = `https://api.songzixian.com/api/holiday?dataSource=LOCAL_HOLIDAY&date=${date}`;
     const res = await axios.get(url);
-    let data = DEFAULT_OUTPUT.holidaytts; // 假设DEFAULT_OUTPUT是一个预定义的对象
 
-    if (res.status === 200 && res.data) {
-      // 假设返回的数据结构中有一个字段用于TTS文本，这里用'tts'作为示例
-      // 根据实际情况调整
-      data = res.data.tts || data;
-    } else {
-      console.error('获取下一休息日tts: 发生错误', res.statusText || '未知错误');
+    if (res.status !== 200 || !res.data || res.data.error) {
+      console.error('API错误:', res.data?.error || '未知错误');
+      throw new Error('获取假日数据失败');
     }
 
-    const arr = [];
-    for (let j = 0, i = 0; j < data.length; j += 20) {
-      arr.push({
+    const data = res.data.tts ?? DEFAULT_OUTPUT.holidaytts;
+
+    const wxHolidaytts = [];
+    for (let i = 0; i < Math.ceil(data.length / 20); i++) {
+      wxHolidaytts.push({
         name: `wx_holidaytts_${i}`,
-        value: data.slice(j, j + 20),
-        color: getColor() // 假设getColor是一个预定义的函数
+        value: data.slice(i * 20, (i + 1) * 20),
+        color: getColor()
       });
-      i++;
     }
 
-    return {
-      holidaytts: data,
-      wxHolidaytts: arr
-    };
+    return { holidaytts: data, wxHolidaytts };
   } catch (err) {
-    console.error('获取下一休息日tts: 发生错误', err.message || err);
-    // 可以在这里添加更多的错误处理逻辑，如重试机制或通知机制
-    throw err; // 或者决定是否在此处抛出异常，取决于你的错误处理策略
+    console.error('获取假日TTS失败:', err.message);
+    // 返回默认值或重新抛出错误
+    return {
+      holidaytts: DEFAULT_OUTPUT.holidaytts,
+      wxHolidaytts: []
+    };
   }
 }
 
