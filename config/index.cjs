@@ -7,13 +7,13 @@
  */
 const USER_CONFIG = {
   // 使用微信测试号：公众号APP_ID
-  APP_ID: "wx1fc3d90d08c5f175",
+  APP_ID: "wx3298f54de84448c4",
 
   // 使用微信测试号：公众号APP_SECRET
-  APP_SECRET: "fb9d02dc8e88c9fea663a78e223ace5b",
+  APP_SECRET: "5f9d6e84d1c54e26f93983720338585c",
 
-  PROVINCE: "安徽",
-  CITY: "亳州",
+  PROVINCE: "河南",
+  CITY: "郑州",
 
   // 功能开关,打开：true，关闭：false
   SWITCH: {
@@ -54,7 +54,7 @@ const USER_CONFIG = {
 
     /** 学生课表 */
     // 填 false 则不使用，按需关闭不使用的功能可以提高运行速度
-    courseSchedule: false,
+    courseSchedule: true,
   },
 
   /** 是否给文字设置多彩颜色, 和emoji不兼容 */
@@ -69,78 +69,78 @@ const USER_CONFIG = {
   USERS: [
     {
       // 想要发送的人的名字
-      name: "小李",
+      name: "娜娜",
       // 使用微信测试号：扫码关注你的微信测试号后生成的一段字符串，在测试号后台能看到
-      id: "oV_L55-qVPdAOZDykHoeKalnuim0",
+      id: "oaExU7MZFaszWucAQZ1-_NZwz6qA",
       // 使用微信测试号：你想对他发送的模板消息的模板ID
-      useTemplateId: "GsuxrAOC50FfD1FRHKxC45zRf4VczaNVfnbLhEaIpsA",
+      useTemplateId: "ksw00PhrAidq5dCcj5mn9lv8CnWpzSl44fsZW1WBiVE",
       // 新历生日, 仅用作获取星座运势, 格式必须为MM-DD
-      horoscopeDate: "03-31",
+      horoscopeDate: "03-08",
       festivals: [
         // 注意：此条配置日期为阴历日期，因为`type`中 “生日” 之前有 * 符号
         {
           type: "*生日",
-          name: "小李",
-          year: "1998",
-          date: "03-04",
+          name: "娜娜",
+          year: "1997",
+          date: "01-30",
         },
         {
           type: "节日",
           name: "相识纪念日",
-          year: "2023",
-          date: "01-18",
+          year: "2025",
+          date: "01-30",
         },
       ],
       // 我们在一起已经有xxxx天了的配置
       customizedDateList: [
         // 在一起的日子
-        { keyword: "love_day", date: "2023-01-18" },
+        { keyword: "love_day", date: "2025-02-02" },
         // 异地的日子
-        { keyword: "longDistance_day", date: "2023-02-02" },
+        { keyword: "longDistance_day", date: "2025-02-04" },
       ],
     },
     {
       // 想要发送的人的名字
       name: "自己",
       // 使用微信测试号：扫码关注你的微信测试号后生成的一段字符串，在测试号后台能看到
-      id: "oV_L55yinPIRUkVOZzUnrmuvUVVQ",
+      id: "oaExU7MZFaszWucAQZ1-_NZwz6qA",
       // 使用微信测试号：你想对他发送的模板消息的模板ID
-      useTemplateId: "GsuxrAOC50FfD1FRHKxC45zRf4VczaNVfnbLhEaIpsA",
+      useTemplateId: "ksw00PhrAidq5dCcj5mn9lv8CnWpzSl44fsZW1WBiVE",
       // 新历生日, 仅用作获取星座运势, 格式必须为MM-DD
-      horoscopeDate: "03-31",
+      horoscopeDate: "03-08",
       festivals: [
         // 注意：此条配置日期为阴历日期，因为`type`中 “生日” 之前有 * 符号
         {
           type: "*生日",
-          name: "小李",
-          year: "1998",
-          date: "03-04",
+          name: "娜娜",
+          year: "1997",
+          date: "01-30",
         },
         {
           type: "节日",
           name: "相识纪念日",
-          year: "2023",
-          date: "01-18",
+          year: "2025",
+          date: "01-30",
         },
       ],
       // 我们在一起已经有xxxx天了的配置
       customizedDateList: [
         // 在一起的日子
-        { keyword: "love_day", date: "2023-01-18" },
+        { keyword: "love_day", date: "2025-02-02" },
         // 异地的日子
-        { keyword: "longDistance_day", date: "2023-02-02" },
+        { keyword: "longDistance_day", date: "2025-02-04" },
       ],
     },
   ],
 
   // 【推送完成提醒】模板id, 用来看自己有没有发送成功的那个模板
-  CALLBACK_TEMPLATE_ID: "sBG-74pmb9PF6C2t34hduqW8FY7nvtoOMOIZd_C0g40",
+  CALLBACK_TEMPLATE_ID: "dwujCq81MxmbrHXB7dFtbwC4E3v90aZ8ZBsyYTuuK68",
 
   CALLBACK_USERS: [
     {
       name: "自己",
       // 使用微信测试号：自己的微信id，扫码关注你的微信测试号后生成的一段字符串，在测试号后台能看到
-      id: "oV_L55yinPIRUkVOZzUnrmuvUVVQ",
+      id: "oaExU7MZFaszWucAQZ1-_NZwz6qA",
     },
   ],
 
@@ -160,13 +160,13 @@ const USER_CONFIG = {
     {
       keyword: "lover_prattle",
       contents: [
-        "今天也超级想小李的哦",
+        "今天也超级想娜宝的哦",
         "我可以抗煤气、扛大米，就是扛不住想你",
         "今天也很想你哦",
-        "我爱小李",
-        "我想小李",
-        "我想抱抱小李",
-        "我想亲亲小李",
+        "我爱娜娜",
+        "我想娜娜",
+        "我想抱抱娜宝",
+        "我想亲亲娜宝",
         "贴贴～",
         "么么～",
         "今天巨巨巨想你",
