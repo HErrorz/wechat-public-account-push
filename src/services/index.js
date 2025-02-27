@@ -226,7 +226,7 @@ export const getHolidaytts = async () => {
 
   try {
     const date = new Date().toISOString().split('T')[0];
-    const url = `http://timor.tech/api/holiday/info/${date}`;
+    const url = `http://timor.tech/api/holiday/info/$date`;
     const res = await axios.get(url);
 
     if (res.data.code !== 0) {
