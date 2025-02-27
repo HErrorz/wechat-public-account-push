@@ -82,7 +82,7 @@ const USER_CONFIG = {
           type: "*生日",
           name: "娜娜",
           year: "1997",
-          date: "01-30",
+          date: "01-29",
         },
         {
           type: "节日",
@@ -114,7 +114,7 @@ const USER_CONFIG = {
           type: "*生日",
           name: "娜娜",
           year: "1997",
-          date: "01-30",
+          date: "01-29",
         },
         {
           type: "节日",
